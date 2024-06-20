@@ -135,7 +135,7 @@ function createItemizedBill(starter, main, dessert) {
     return bill;
 }
 
-// Function to prompt for a valid selection from the menu
+// Function to prompt for a valid selection
 function promptForValidSelection(menuType, courseType, promptMessage) {
     let selectedItem;
     while (!selectedItem) {
@@ -148,13 +148,48 @@ function promptForValidSelection(menuType, courseType, promptMessage) {
     return selectedItem;
 }
 
+// Function to determine meal type based on time
+function getMealType(hour, minute) {
+    const totalMinutes = hour * 60 + minute;
+    const breakfastEnd = 11 * 60; // 11:00 AM
+    const lunchEnd = 17 * 60; // 5:00 PM
+    const closingTime = 23 * 60; // 11:00 PM
+
+    if (totalMinutes >= 7 * 60 && totalMinutes < breakfastEnd) {
+        return "breakfast";
+    } else if (totalMinutes >= breakfastEnd && totalMinutes < lunchEnd) {
+        return "lunch";
+    } else if (totalMinutes >= lunchEnd && totalMinutes <= closingTime) {
+        return "dinner";
+    } else {
+        return null;
+    }
+}
+
 // Main function to run the diner menu selection
 function runDiner() {
-    const mealType = prompt("Welcome to Highway Diner! What would you like to have? (Breakfast/Lunch/Dinner)").toLowerCase();
-    if (!menu[mealType]) {
-        alert("Invalid meal type. Please select Breakfast, Lunch, or Dinner.");
+    const timeInput = prompt("Welcome to Highway Diner! Please enter your reservation time (HH:MM):");
+    const timeParts = timeInput.split(':');
+    const hour = parseInt(timeParts[0], 10);
+    const minute = parseInt(timeParts[1], 10);
+
+    if (isNaN(hour) || isNaN(minute) || hour < 0 || hour >= 24 || minute < 0 || minute >= 60) {
+        alert("Invalid time format. Please enter time in HH:MM format.");
         return;
     }
+
+    if (hour < 7 || hour >= 23 || (hour === 22 && minute > 0)) {
+        alert("Sorry, we are closed. Our opening hours are from 07:00 to 23:00.");
+        return;
+    }
+
+    const mealType = getMealType(hour, minute);
+    if (!mealType) {
+        alert("Sorry, we are closed. Our opening hours are from 07:00 to 23:00.");
+        return;
+    }
+
+    alert(`Welcome to ${mealType.charAt(0).toUpperCase() + mealType.slice(1)} Menu!`);
 
     const starterOptions = getMenuOptions(mealType, 'starters');
     const selectedStarter = promptForValidSelection(mealType, 'starters', `Please select a starter by entering the name:\n${starterOptions}`);
