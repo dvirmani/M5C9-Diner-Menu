@@ -53,60 +53,14 @@ const menu = {
     }
 };
 
-// Comment vault
-const comments = {
-    breakfast: {
-        starters: [
-            "The fruit salad is fresh and vibrant!",
-            "Our yogurt parfait is a great start to your day.",
-            "The oatmeal is hearty and healthy."
-        ],
-        mains: [
-            "The pancakes are fluffy and delicious!",
-            "Our omelette is packed with fresh vegetables.",
-            "French Toast is a classic choice."
-        ],
-        desserts: [
-            "The muffin is freshly baked.",
-            "Our Danish is sweet and flaky.",
-            "The cinnamon roll is warm and gooey."
-        ]
-    },
-    lunch: {
-        starters: [
-            "The bruschetta is bursting with flavor!",
-            "Our soup is always a hit.",
-            "The Caesar salad is crisp and refreshing."
-        ],
-        mains: [
-            "The cheeseburger is our most popular item!",
-            "You can't go wrong with the BLT sandwich.",
-            "Our chicken and waffle is a speciality."
-        ],
-        desserts: [
-            "The brownie is rich and decadent.",
-            "Our ice cream is creamy and delicious.",
-            "The cheesecake is smooth and creamy."
-        ]
-    },
-    dinner: {
-        starters: [
-            "The tempura shrimp is a great start to your meal.",
-            "Stuffed mushrooms are a crowd favorite.",
-            "The caprese salad is light and fresh."
-        ],
-        mains: [
-            "The steak is cooked to perfection.",
-            "Our veggie burger is a vegetarian delight.",
-            "The Pizza is made freshly in a woodfire oven."
-        ],
-        desserts: [
-            "The tiramisu is a delightful end to your meal.",
-            "Our chocolate cake is a chocolate lover's dream.",
-            "The panna cotta is creamy and delicious."
-        ]
-    }
-};
+// Generic comments for the food choices
+const genericComments = [
+    "This is a customer favorite!",
+    "People often come back just for this.",
+    "Highly recommended by our chef!",
+    "A delightful choice!",
+    "You made an excellent choice!"
+];
 
 // Function to display the menu options in the prompt
 function getMenuOptions(menuType, courseType) {
@@ -121,9 +75,8 @@ function selectItem(menuType, courseType, itemName) {
     if (!item) {
         return null;
     }
-    const commentIndex = menu[menuType][courseType].findIndex(it => it.name.toLowerCase() === itemName.toLowerCase());
-    const comment = comments[menuType][courseType][commentIndex];
-    alert(`${comment}`);
+    const randomComment = genericComments[Math.floor(Math.random() * genericComments.length)];
+    alert(`${randomComment}`);
     return item;
 }
 
